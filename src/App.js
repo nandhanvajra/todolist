@@ -3,10 +3,18 @@ import { useState } from "react";
 export default function Todolist() {
   const [list, setList] = useState([]);
   const [form, setForm] = useState(false);
+  const [req,setreq]=useState(true);
 
   function onSubmit(obj) {
-    setList([...list,obj])
-    setForm(false);
+    if((obj.mainInput.trim||obj.finalDate.true)!==' '){
+    setreq(true)
+    }
+   
+    if(setreq(true)){
+      setList([...list,obj])
+      setForm(false)
+    }
+   
   }
 
   return (
@@ -88,6 +96,7 @@ function Formdialog({ onSubmit ,onClose}) {
     finalDate:' '
 
   })
+  
 function handleclose(){
   setobj({
     mainInput:' ',
@@ -98,6 +107,7 @@ function handleclose(){
 }
   function handlechange(event){
      const {name,value}=event.target;
+     
      setobj((bj)=>({...bj,[name]:value}))
   }
   return (
