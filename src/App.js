@@ -11,8 +11,8 @@ export default function Todolist() {
     }
    
     if(setreq(true)){
-      setList([...list,obj])
-      setForm(false)
+      setList([...list,obj]);
+      setForm(false);
     }
    
   }
