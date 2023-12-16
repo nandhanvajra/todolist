@@ -5,17 +5,16 @@ export default function Todolist() {
   const [form, setForm] = useState(false);
   const [req,setreq]=useState(true);
 
-  function onSubmit(obj) {
-    if((obj.mainInput.trim||obj.finalDate.true)!==' '){
-    setreq(true)
-    }
-   
-    if(setreq(true)){
-      setList([...list,obj]);
+  function onSubmit(obj, event) {
+    
+    console.log('finalDate:', obj.finalDate);
+    if ((obj.mainInput.trim())!== '' && obj.finalDate.trim()!=='') {
+      
+      setList([...list, obj]);
       setForm(false);
     }
-   
   }
+  
 
   return (
     <>
@@ -91,9 +90,9 @@ function Button({ onClick, children,style }) {
 
 function Formdialog({ onSubmit ,onClose}) {
   const [obj,setobj]=useState({
-    mainInput:' ',
+    mainInput:'',
     importance:'very important',
-    finalDate:' '
+    finalDate:''
 
   })
   
@@ -197,7 +196,7 @@ function handleclose(){
         }}>
         <Button 
           
-        onClick={() => onSubmit(obj)} style={{ display: 'block',
+        onClick={(event) => onSubmit(obj,event)} style={{ display: 'block',
         padding:'10px',
         paddingRight:'12px',
         paddingLeft:'12px',
