@@ -4,15 +4,25 @@ export default function Todolist() {
   const [list, setList] = useState([]);
   const [form, setForm] = useState(false);
   const [req,setreq]=useState(true);
+  const [index,setindex]=useState(0);
 
   function onSubmit(obj, event) {
     
     console.log('finalDate:', obj.finalDate);
+    const newobj=({...obj,index})
+    console.log(newobj)
     if ((obj.mainInput.trim())!== '' && obj.finalDate.trim()!=='') {
-      
+      setindex((index)=>index+1)
       setList([...list, obj]);
       setForm(false);
+      console.log(index)
+      console.log(list)
     }
+  }
+  function remove(event){
+    const ind=event.index
+    const tempobj=list.filter((obj)=>obj.index===ind)
+    setList(tempobj)
   }
   
 
@@ -40,12 +50,13 @@ export default function Todolist() {
           borderRadius:'30px',
           borderStyle:'none',
           backgroundColor:'#00F752',
-          transition:'background-color 0.3s'
+          transition:'background-color 0.3s',
+          cursor: 'pointer'
 
         }}onClick={() => setForm(true)}><b>+ Give tasks to do</b></Button>
       </div>
       </div>
-      {form && <Formdialog onSubmit={onSubmit} onClose={()=>setForm(false)}/>}
+      {form && <Formdialog onSubmit={onSubmit} onClose={()=>setForm(false)} index={index}/>}
       <table style={{
           marginTop: '20px',
           color: 'white',
@@ -73,10 +84,12 @@ export default function Todolist() {
                 <td style={{maxWidth:'15%',
                      color:obj.importance==='very important'?'red':(obj.importance==='not important'?'green':'yellow'), padding:'7px'       }}>{obj.importance}</td>
                 <td style={{maxWidth:'15%', padding:'7px'}}>{obj.finalDate}</td>
-              
+                <Button onClick={()=>remove({index})}>Done</Button>
               </tr>
+
             ))}
           </tbody>
+          
         </table>
       </div>
      
@@ -88,7 +101,7 @@ function Button({ onClick, children,style }) {
   return <button style={style} onClick={onClick}>{children}</button>;
 }
 
-function Formdialog({ onSubmit ,onClose}) {
+function Formdialog({ onSubmit ,onClose,index}) {
   const [obj,setobj]=useState({
     mainInput:'',
     importance:'very important',
@@ -98,9 +111,10 @@ function Formdialog({ onSubmit ,onClose}) {
   
 function handleclose(){
   setobj({
-    mainInput:' ',
+    mainInput:'',
     importance:'very important',
-    finalDate:' '
+    finalDate:'',
+    
   })
   onClose();
 }
@@ -168,7 +182,8 @@ function handleclose(){
           fontWeight:'bold'
         }} htmlFor="importance">Importance</label>
         <select style={{
-          padding:'5px'
+          padding:'5px',
+          cursor: 'pointer'
         }}onChange={handlechange} id="importance" name="importance">
           <option value="very-important">Very Important</option>
           <option value="important">Important</option>
@@ -186,7 +201,8 @@ function handleclose(){
         }} htmlFor="finalDate">Final Date</label>
         <input style={{
           marginRight: '30px',
-          padding:'5px'
+          padding:'5px',
+          cursor: 'pointer'
           
         }} onChange={handlechange} type="date" id="finalDate" name="finalDate" required />
           </div>
@@ -203,7 +219,8 @@ function handleclose(){
         borderRadius:'30px',
         borderStyle:'none',
         backgroundColor:'#00F752',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        cursor: 'pointer'
         }}>
           Submit
         </Button>
