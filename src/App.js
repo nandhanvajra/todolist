@@ -9,11 +9,11 @@ export default function Todolist() {
   function onSubmit(obj, event) {
     
     console.log('finalDate:', obj.finalDate);
-    const newobj=({...obj,index})
+    const newobj=({...obj,index:index})
     console.log(newobj)
     if ((obj.mainInput.trim())!== '' && obj.finalDate.trim()!=='') {
       setindex((index)=>index+1)
-      setList([...list, obj]);
+      setList([...list, newobj]);
       setForm(false);
       console.log(index)
       console.log(list)
@@ -21,7 +21,8 @@ export default function Todolist() {
   }
   function remove(event){
     const ind=event.index
-    const tempobj=list.filter((obj)=>obj.index===ind)
+    console.log('Removing task with index:', ind);
+    const tempobj=list.filter((obj)=>obj.index!==ind)
     setList(tempobj)
   }
   
@@ -84,7 +85,14 @@ export default function Todolist() {
                 <td style={{maxWidth:'15%',
                      color:obj.importance==='very important'?'red':(obj.importance==='not important'?'green':'yellow'), padding:'7px'       }}>{obj.importance}</td>
                 <td style={{maxWidth:'15%', padding:'7px'}}>{obj.finalDate}</td>
-                <Button onClick={()=>remove({index})}>Done</Button>
+
+                <Button style={{borderRadius:'30px',
+        borderStyle:'none',
+        backgroundColor:'#00F752',
+        fontWeight:'bold',
+        cursor: 'pointer',
+        padding:'3px',
+        marginTop:'7px'}}onClick={()=>remove({index:obj.index})}>Done</Button>
               </tr>
 
             ))}
